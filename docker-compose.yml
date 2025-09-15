@@ -1,3 +1,4 @@
+version: "3.9"
 services:
   db:
     image: postgres:15
@@ -7,8 +8,8 @@ services:
       POSTGRES_DB: authdb
     volumes:
       - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+    networks:
+      - appnet
 
   auth:
     build: ./service-auth
@@ -19,7 +20,29 @@ services:
       - db
     ports:
       - "6000:5000"
+    networks:
+      - appnet
+
+  library:
+    build: ./service-lib
+    ports:
+      - "6001:5001"
+    networks:
+      - appnet
+
+  frontend:
+    build: ./front
+    ports:
+      - "8080:80"
+    depends_on:
+      - auth
+      - library
+    networks:
+      - appnet
 
 volumes:
   pgdata:
+
+networks:
+  appnet:
 
