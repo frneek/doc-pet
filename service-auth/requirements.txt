@@ -1,0 +1,10 @@
+flask
+flask-cors
+flask_sqlalchemy
+psycopg2-binary
+pyjwt
+flask_sqlalchemy
+flask_jwt_extended
+werkzeug
+psycopg2-binary
+

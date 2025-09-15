@@ -1,0 +1,25 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: authuser
+      POSTGRES_PASSWORD: authpass
+      POSTGRES_DB: authdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  auth:
+    build: ./service-auth
+    environment:
+      DATABASE_URL: postgresql://authuser:authpass@db:5432/authdb
+      SECRET_KEY: supersecretkey
+    depends_on:
+      - db
+    ports:
+      - "6000:5000"
+
+volumes:
+  pgdata:
+
